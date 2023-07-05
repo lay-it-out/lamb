@@ -1,0 +1,38 @@
+[tool.poetry]
+name = "lay-it-out"
+version = "0.0.0"
+description = "artifact for the paper lay-it-out"
+authors = ["paulzfm", "panda2134"]
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.dependencies]
+python = "3.11.*"
+antlr4-python3-runtime = "4.10"
+nanoid = "2.0.*"
+open-python = ">=1.1.1"
+prettytable = "3.3.*"
+prompt-toolkit = "3.0.*"
+pydash = "5.1.*"
+pydot = "1.4.*"
+pymongo = "4.1.*"
+pysmt = "0.9.5"
+pyyaml = "6.*"
+rich = "12.4.*"
+six = "1.*.*"
+tqdm = "4.64.*"
+yices = "1.1.5"
+z3-solver = "4.8.15.0" # also locked in nix flake
+
+[tool.poetry.dev-dependencies]
+# ipdb = "0.13.*"
+ipython = "8.4.*"
+matplotlib = "3.5.3" # also locked in nix flake
+natsort = "8.1.*"
+#pytype = "2023.*.*"
+jedi-language-server = "0.36.*"
+# jupyter = "1.*.*"
+# jupyterlab = "3.4.*"
+# jupyterlab-lsp = "3.10.*"

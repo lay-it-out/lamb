@@ -1,0 +1,7 @@
+document ::= stmt|+|;
+stmt ::= match-block | "pass";
+match-block ::= ( match-head ( case|+| ) )|>;
+match-head ::= ("match" "id" ":")~;
+case ::= case-head -> case-body;
+case-head ::= ("case" "id" ":")~;
+case-body ::= document;

@@ -1,0 +1,7 @@
+ sentence: [['id', 1, 1], ['=', 1, 2], ['id', 1, 3], ['where', 1, 4],
+            ['id', 1, 5], ['=', 1, 6], ['id', 1, 7], ['id', 1, 8], ['id', 2, 5], ['=', 2, 6], ['id', 2, 7]]
+ constraints:
+   - rule index: 5
+     variable: new-var-1
+     refining suggestion:
+     - BinaryOp.AlignOp

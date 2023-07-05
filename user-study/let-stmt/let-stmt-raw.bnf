@@ -1,0 +1,3 @@
+let-expr ::= "let" decl* "in" expr;
+decl ::= expr "=" expr;
+expr ::= "id" | "id" "id" | let-expr // let id = id id id = id in id

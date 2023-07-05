@@ -1,0 +1,4 @@
+body ::= stmt|+|;
+for-stmt ::= ("for" binder "in" "range(n)" ":")~ -> body;
+stmt ::= for-stmt | "pass";
+binder ::= ("id" ",")* "id";

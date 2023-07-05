@@ -1,0 +1,8 @@
+map ::= "id" ":" map-body;
+map-body ::= expl-or-impl-kv+;
+expl-kv ::= expl-k expl-v?;
+expl-k ::= "?" k-or-v;
+expl-v ::= ":" k-or-v;
+impl-kv ::= ("id" ":") ("id"?); // a prior knowledge
+k-or-v ::= (map-body | "id")?;
+expl-or-impl-kv ::= expl-kv | impl-kv;

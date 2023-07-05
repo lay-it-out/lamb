@@ -1,0 +1,7 @@
+document ::= stmt+;
+stmt ::= instance | valdef;
+valdef ::= (decl where?)|>;
+decl ::= (e '=' e)~;
+instance ::= ('instance' 'Eq' 'a' where)|>;
+e ::= 'id' | 'id' 'id';
+where ::= 'where' decl|+|;

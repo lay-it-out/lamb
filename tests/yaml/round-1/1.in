@@ -1,0 +1,8 @@
+reformat block-sequence 0 1 1 1
+reformat block-sequence 0 2 2 1
+
+reformat block-sequence 1 1 1 1
+reformat block-sequence 1 2 2 2
+
+refine block-sequence
+exit

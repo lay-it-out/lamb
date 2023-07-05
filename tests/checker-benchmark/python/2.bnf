@@ -1,0 +1,130 @@
+FileInput ::= FileLine|*|;
+FileLine ::= Stmt;
+
+Funcdef ::= FuncdefOnline | FuncdefSuite;
+FuncdefOneline ::= ("def" Name Parameters ResSpec? ":" SimpleStmt)~;
+FuncdefSuite ::= ("def" Name Parameters ResSpec? ":")~ Suite;
+
+ResSpec ::= "->" Test;
+
+Parameters ::= "(" Typedargslist? ")";
+
+Typedargslist ::= (Tfpdef ("=" Test)? ("," Tfpdef ("=" Test)?)* (","
+        ("*" (Tfpdef)? ("," Tfpdef ("=" Test)?)* ("," "**" Tfpdef)? | "**" Tfpdef)?)?
+      |  "*" (Tfpdef)? ("," Tfpdef ("=" Test)?)* ("," "**" Tfpdef)? | "**" Tfpdef);
+Tfpdef ::= Name | (Name ":" Test);
+Varargslist ::= Vfpdef ("=" Test)? ("," Vfpdef ("=" Test)?)* (","
+        ("*" (Vfpdef)? ("," Vfpdef ("=" Test)?)* ("," "**" Vfpdef)? | "**" Vfpdef)?)?
+      |  "*" (Vfpdef)? ("," Vfpdef ("=" Test)?)* ("," "**" Vfpdef)? | "**" Vfpdef;
+Vfpdef ::= Name;
+
+Stmt ::= SimpleStmt | CompoundStmt;
+SimpleStmt ::= ((SmallStmt ";")* SmallStmt (";"?))~; //oneline!
+SmallStmt ::= ExprStmt~ | DelStmt~ | PassStmt~ | FlowStmt~ | ImportStmt~ | GlobalStmt~ | NonlocalStmt~ | AssertStmt~;
+ExprStmt ::= TestlistStarExpr Augassign YieldExpr
+           | TestlistStarExpr Augassign Testlist
+           | TestlistStarExpr Assign+
+           | TestlistStarExpr;
+Assign ::= "=" YieldExpr
+         | "=" TestlistStarExpr;
+TestStarExpr ::= Test | StarExpr;
+TestlistStarExpr ::= (TestStarExpr ";")* TestStarExpr ",";
+
+DelStmt ::= "del" Exprlist;
+PassStmt ::= "pass";
+FlowStmt ::= BreakStmt | ContinueStmt | ReturnStmt | RaiseStmt | YieldStmt;
+BreakStmt ::= "break";
+ContinueStmt ::= "continue";
+ReturnStmt ::= "return" Testlist?;
+YieldStmt ::= YieldExpr;
+RaiseStmt ::= "raise" (Test ("from" Test)?)?;
+
+ImportStmt ::= ImportName | ImportFrom;
+ImportName ::= "import" DottedAsNames;
+ImportFrom ::= "from" ("."* DottedName | "."+) "import" ("*" | "(" ImportAsNames ")" | ImportAsNames);
+ImportAsName ::= Name | Name "as" Name;
+DottedAsName ::= DottedName
+               | DottedName "as" Name;
+ImportAsNames ::= (ImportAsName ",")* ImportAsName ","?;
+DottedAsNames ::= (DottedAsName ",")* DottedAsName;
+DottedName ::= (Name ".")* Name;
+
+GlobalStmt ::= "global" (Name ",")* Name;
+NonlocalStmt ::= "nonlocal" (Name ",")* Name;
+AssertStmt ::= "assert" Test | "assert" Test "," Test;
+
+CompoundStmt ::= IfStmt | WhileStmt | ForStmt | TryStmt | WithStmt | Funcdef | Classdef;
+IfStmt ::= (("if" Test ":" SimpleStmt)~ || Elif|*| || Else?)
+         | ((("if" Test ":")~ -> Suite) || Elif|*| || Else?);
+Elif ::= ("elif" Test ":" SimpleStmt)~ | (("elif" Test ":")~ -> Suite);
+Else ::= ("else" ":" SimpleStmt)~ | (("else" ":")~ -> Suite);
+
+WhileStmt ::= ((("while" Test ":") SimpleStmt)~ || Else?)
+            | ((("while" Test ":")~ -> Suite) || Else?);
+
+ForStmt ::= (("for" Exprlist "in" Testlist ":" SimpleStmt)~ || Else?)
+          | ((("for" Exprlist "in" Testlist ":")~ -> Suite) || Else?);
+
+TryStmt ::= (("try" ":" SimpleStmt)~ || Finally?)
+          | ((("try" ":")~ -> Suite) || Finally?)
+          | (("try" ":" SimpleStmt)~ || Except|+| || Else? || Finally?)
+          | ((("try" ":")~ -> Suite) || Except|+| || Else? || Finally?);
+Finally ::= ("finally" ":" SimpleStmt)~ | (("finally" ":") -> Suite);
+Except ::= (ExceptClause ":" SimpleStmt)~ | ((ExceptClause ":")~ -> Suite);
+ExceptClause ::= "except" | ("except" Test) | ("except" Test "as" Name);
+
+WithStmt ::= ("with" WithItemList ":" SimpleStmt)~ | (("with" WithItemList ":")~ -> Suite);
+WithItemList ::= (WithItem ",")* WithItem;
+WithItem ::= Test | (Test "as" Expr);
+
+Suite ::= Stmt|+|;
+
+Test ::= OrTest | (OrTest "if" OrTest "else" Test) | Lambdef;
+TestNocond ::= OrTest | LambdefNocond;
+Lambdef ::= "lambda" Varargslist? ":" Test;
+LambdefNocond ::= "lambda" Varargslist? ":" TestNocond;
+OrTest ::= (AndTest "or")* AndTest;
+AndTest ::= (NotTest "and")* NotTest;
+NotTest ::= ("not" NotTest) | Expr;
+Expr ::= "---" | Atom Trailer*; // placeholder for operator priorities, whose ambiguity is actually intended
+
+StarExpr ::= "*" Expr;
+ExprStarExpr ::= Expr | StarExpr;
+YieldExpr ::= "yield" Testlist?;
+Atom ::= Name | Number | String | "..." | "None" | "True" | "False" | "(" ")"
+       | "(" YieldExpr ")" | "(" TestlistComp ")" | "[" TestlistComp "]" | "{" "}" | "{" DictSetmaker "}";
+TestlistComp ::= TestStarExpr CompFor | ((TestStarExpr ",")* TestStarExpr ","?);
+Trailer ::= "(" Arglist? ")" | "[" Subscriptlist "]" | "." Name;
+Subscriptlist ::= (Subscript ",")* Subscript ","?;
+Subscript ::= Test | (Test? ":" Test? Sliceop?);
+Sliceop ::= ":" Test?;
+
+Exprlist ::= (ExprStarExpr ",")* ExprStarExpr ","?;
+
+Testlist ::= (Test ",")* Test ","?;
+
+DictSetmaker ::= (Test CompFor)
+               | ((Test ",")* Test ","?)
+               | (Test ":" Test CompFor)
+               | (Test ":" Test ("," Test ":" Test)* ","?);
+Classdef ::= ("class" Name ArglistP? ":")~ -> Suite;
+ArglistP ::= "(" Arglist? ")";
+
+Arglist ::= ((Argument ",")* Argument ","?)
+          | ((Argument ",")* "**" Test)
+          | ((Argument ",")* "*" Test ("," Argument)*)
+          | ((Argument ",")* "*" Test ("," Argument)* "," "**" Test);
+
+Argument ::= Test | (Test CompFor) | (Name "=" Test);
+
+CompIter ::= CompFor | CompIf;
+CompFor ::= "for" Exprlist "in" OrTest CompIter?;
+CompIf ::= "if" TestNocond CompIter?;
+
+Augassign ::= "+=" | "-=" | "*=" | "/=" | "%=" | "&=" | "|=" | "^="
+            | "<<=" | ">>=" | "**=" | "//=";
+CompOp ::= "<"|">"|"=="|">="|"<="|"<>"|"!="|"in"|("not" "in")|"is"|("is" "not");
+Name ::= "name01";
+String ::= '"teststring1"' | "'teststring2'";
+Integer ::= "42" | "0755" | "0xdeadbeef";
+

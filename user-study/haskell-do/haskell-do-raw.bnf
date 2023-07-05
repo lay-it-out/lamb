@@ -1,0 +1,3 @@
+document ::= stmt+;
+do-block ::= "do" stmt+;
+stmt ::= ("main" "=" do-block) | ("putStrLn" "id");

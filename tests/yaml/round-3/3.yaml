@@ -1,0 +1,15 @@
+sentence: [["?", 1, 1], ["t", 2, 2], [":", 2, 3], ["t", 2, 4],
+           [":", 3, 1], ["t", 3, 2]]
+constraints:
+  - rule index: 18
+    variable: off-explicit-key
+    refining suggestion:
+      - UnaryOp.OffsideOp
+  - rule index: 22
+    variable: off-explicit-val
+    refining suggestion:
+      - UnaryOp.OffsideOp
+  - rule index: 28
+    variable: implicit-key
+    refining suggestion:
+      - UnaryOp.SameLineOp

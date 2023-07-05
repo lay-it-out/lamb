@@ -1,0 +1,4 @@
+document ::= assign-stmt|+|;
+assign-stmt ::= ("id" "=" expr where?)|>;
+where ::= "where" assign-stmt|+|;
+expr ::= "id" "+" "id";

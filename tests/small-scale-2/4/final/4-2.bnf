@@ -1,0 +1,7 @@
+start ::= expr|+|;
+expr ::= l-expr | m-expr | "e";
+l-expr ::= (bind || expr); // actually much stronger than the suggested version; a priori knowledge!
+bind ::= ("let id =" expr)|>;
+m-expr ::= (m-with rules)|>;
+m-with ::= "match id with";
+rules ::= ("| id ->" expr)|>|+|;

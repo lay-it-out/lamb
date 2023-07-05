@@ -1,0 +1,26 @@
+sentence: [['@keyframes', 1, 1], ['"string"', 1, 2], ['to', 2, 2],
+           ['id', 3, 3], [':', 3, 4], ['100px', 3, 5],
+           ['id', 4, 1], [':', 4, 2], ['100px', 4, 3]]
+constraints:
+  - rule index: 90
+    variable: css-keyframes
+    refining suggestion:
+      - BinaryOp.IndentOp
+      - UnaryOp.OffsideOp
+  - rule index: 216 # left of #90
+    variable: new-var-78
+    refining suggestion:
+      - UnaryOp.SameLineOp
+  - rule index: 95
+    variable: keyframe-block
+    refining suggestion:
+      - BinaryOp.IndentOp
+      - UnaryOp.OffsideOp
+  - rule index: 218 # right of #95
+    variable: new-var-80
+    refining suggestion:
+      - BinaryOp.AlignOp
+  - rule index: 15
+    variable: prop-decl
+    refining suggestion:
+      - UnaryOp.SameLineOp

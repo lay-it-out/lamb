@@ -1,0 +1,16 @@
+sentence: [['@if', 1, 1], ['100px', 1, 2], ['@error', 2, 2],
+           ['100px', 2, 3], ['@include', 3, 1], ['id', 3, 2]]
+constraints:
+  - rule index: 32
+    variable: b-if
+    refining suggestion:
+      - BinaryOp.IndentOp
+      - UnaryOp.OffsideOp
+  - rule index: 146
+    variable: new-var-26
+    refining suggestion:
+      - UnaryOp.SameLineOp
+  - rule index: 147
+    variable: new-var-27
+    refining suggestion:
+      - BinaryOp.AlignOp

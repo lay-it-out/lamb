@@ -1,0 +1,18 @@
+reformat rules 0 1 1 1
+reformat rules 0 2 2 2
+reformat rules 0 3 2 3
+reformat rules 0 4 3 4
+reformat rules 0 5 3 5
+reformat rules 0 6 4 2
+reformat rules 0 7 4 3
+
+reformat rules 1 1 1 1
+reformat rules 1 2 2 2
+reformat rules 1 3 2 3
+reformat rules 1 4 3 4
+reformat rules 1 5 3 5
+reformat rules 1 6 4 4
+reformat rules 1 7 4 5
+
+refine rules
+exit

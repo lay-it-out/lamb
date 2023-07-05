@@ -1,0 +1,19 @@
+sentence: [['@if', 1, 1], ['100px', 1, 2],
+           ['@error', 2, 2], ['100px', 2, 3],
+           ['@else', 3, 1],
+           ['@include', 4, 2], ['id', 4, 3],
+           ['@extend', 5, 1], ['id', 5, 2]]
+constraints:
+  - rule index: 34
+    variable: b-else
+    refining suggestion:
+      - BinaryOp.IndentOp
+      - UnaryOp.OffsideOp
+  - rule index: 149
+    variable: new-var-29 # rhs of #34
+    refining suggestion:
+      - BinaryOp.AlignOp
+  - rule index: 31
+    variable: control-if
+    refining suggestion:
+      - BinaryOp.AlignOp

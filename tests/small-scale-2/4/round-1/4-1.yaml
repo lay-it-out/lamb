@@ -1,0 +1,20 @@
+sentence: [['match id with', 1, 1],
+           ['| id ->', 2, 2],
+           ['match id with', 2, 3],
+           ['| id ->', 3, 4],
+           ['e', 3, 5],
+           ['| id ->', 4, 4],
+           ['e', 4, 5]]
+constraints:
+  - rule index: 6
+    variable: m-expr
+    refining suggestion:
+    - UnaryOp.OffsideOp
+  - rule index: 8
+    variable: rules
+    refining suggestion:
+    - BinaryOp.AlignOp
+  - rule index: 9
+    variable: rules
+    refining suggestion:
+    - UnaryOp.OffsideOp

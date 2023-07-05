@@ -1,0 +1,16 @@
+sentence: [['@media', 1, 1], ['id', 1, 2], ['@warn', 2, 2],
+           ['100px', 2, 3], ['@warn', 3, 1], ['100px', 3, 2]]
+constraints:
+  - rule index: 45
+    variable: css-media
+    refining suggestion:
+      - BinaryOp.IndentOp
+      - UnaryOp.OffsideOp
+  - rule index: 170
+    variable: new-var-42 # 1st part of css-media: same line
+    refining suggestion:
+      - UnaryOp.SameLineOp
+  - rule index: 171
+    variable: new-var-43 # 2nd part of css-media: stmt-no-top|+|
+    refining suggestion:
+      - BinaryOp.AlignOp

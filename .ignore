@@ -1,0 +1,8 @@
+debug
+ebnf/antlr/*
+__pycache__/
+*.py[cod]
+*$py.class
+.vscode/
+.pytype/
+.smt_disambig_history

@@ -1,0 +1,17 @@
+sentence: [['@while', 1, 1], ['100px', 1, 2],
+           ['@warn', 2, 2], ['100px', 2, 3],
+           ['@include', 3, 1], ['id', 3, 2]]
+constraints:
+  - rule index: 42
+    variable: control-while
+    refining suggestion:
+      - BinaryOp.IndentOp
+      - UnaryOp.OffsideOp
+  - rule index: 167
+    variable: new-var-40 # lhs of control-while
+    refining suggestion:
+      - UnaryOp.SameLineOp
+  - rule index: 168
+    variable: new-var-41 # rhs
+    refining suggestion:
+      - BinaryOp.AlignOp

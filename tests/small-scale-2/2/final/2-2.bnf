@@ -1,0 +1,4 @@
+block ::= stmt|+|;
+stmt ::= (while-stmt | "pass")|>;
+while-stmt ::= (while-test -> block)|>;
+while-test ::= "while e:"

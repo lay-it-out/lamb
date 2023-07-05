@@ -1,0 +1,3 @@
+start ::= match-id-with -> rules;
+match-id-with ::= ("match" "id" "with")~;
+rules ::= (("|" "id" "->" (start | "id"))|>)|+|; // We refined it again here, by adding an |>

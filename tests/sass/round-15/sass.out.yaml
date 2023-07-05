@@ -1,0 +1,23 @@
+sentence: [['@if', 1, 1], ['100px', 1, 2],
+           ['@warn', 2, 2], ['100px', 2, 3],
+           ['@else', 3, 1], ['if', 3, 2], ['100px', 3, 3],
+           ['@include', 4, 2], ['id', 4, 3],
+           ['@warn', 5, 1], ['100px', 5, 2]]
+constraints:
+  - rule index: 33
+    variable: b-elif
+    refining suggestion:
+      - BinaryOp.IndentOp
+      - UnaryOp.OffsideOp
+  - rule index: 145
+    variable: new-var-26 # left of #33
+    refining suggestion:
+      - UnaryOp.SameLineOp
+  - rule index: 146
+    variable: new-var-27 # right of #33
+    refining suggestion:
+      - BinaryOp.AlignOp
+  - rule index: 141
+    variable: new-var-23 # left of control-if
+    refining suggestion:
+      - BinaryOp.AlignOp
