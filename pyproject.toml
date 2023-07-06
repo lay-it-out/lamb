@@ -1,8 +1,9 @@
 [tool.poetry]
-name = "lay-it-out"
+name = "lamb"
 version = "0.0.0"
-description = "artifact for the paper lay-it-out"
+description = "artifact for the paper lamb"
 authors = ["paulzfm", "panda2134"]
+packages = [{include = "lamb"}]
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
@@ -24,15 +25,12 @@ rich = "12.4.*"
 six = "1.*.*"
 tqdm = "4.64.*"
 yices = "1.1.5"
-z3-solver = "4.8.15.0" # also locked in nix flake
+# z3 = "4.8.*" # taken from nixpkgs, thus not in poetry.lock
 
 [tool.poetry.dev-dependencies]
-# ipdb = "0.13.*"
 ipython = "8.4.*"
-matplotlib = "3.5.3" # also locked in nix flake
 natsort = "8.1.*"
-#pytype = "2023.*.*"
 jedi-language-server = "0.36.*"
-# jupyter = "1.*.*"
-# jupyterlab = "3.4.*"
-# jupyterlab-lsp = "3.10.*"
+
+[tool.poetry.scripts]
+lamb = 'lamb:entrypoint'

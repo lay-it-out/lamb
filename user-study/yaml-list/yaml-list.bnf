@@ -1,3 +1,0 @@
-document ::= list;
-list ::= item|*|;
-item ::= ("-" list)|> | "- id"; // refined

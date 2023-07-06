@@ -34,7 +34,7 @@ print_lock = asyncio.Lock()
 async def run_on_case(grammar_path, start_var=None):
     """Run main.py with the provided grammar and parses the output.
     """
-    args = [app_root / 'main.py', '-c', '20', '-s', '-b', grammar_path]
+    args = ['-m', 'lamb', '-c', '20', '-s', '-b', grammar_path]
     if start_var is not None:
         args.extend(['-v', start_var])
     fp = make_tempfile('w', '.in')

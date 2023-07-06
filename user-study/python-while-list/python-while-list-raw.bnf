@@ -1,8 +1,0 @@
-document ::= stmt+;
-stmt ::= "pass" | while-stmt | decl;
-while-head ::= "while" "True" ":";
-while-body-stmt ::= stmt | "break";
-while-stmt ::= (while-head while-body-stmt+);
-decl ::= ident "=" list;
-ident ::= "foo" | "bar" | "baz";
-list ::= "[" (ident ",")* ident "]";

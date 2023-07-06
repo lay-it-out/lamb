@@ -52,22 +52,6 @@
         "type": "github"
       }
     },
-    "nixpkgs-matplotlib": {
-      "locked": {
-        "lastModified": 1663576656,
-        "narHash": "sha256-2ZOXdmJm6HkKR0Ck3fa+EYHDAAbpk/MBWpF+BCOBErI=",
-        "owner": "NixOS",
-        "repo": "nixpkgs",
-        "rev": "dbe80f4b2c007120eb8244883de8e3ea3140b7f1",
-        "type": "github"
-      },
-      "original": {
-        "owner": "NixOS",
-        "repo": "nixpkgs",
-        "rev": "dbe80f4b2c007120eb8244883de8e3ea3140b7f1",
-        "type": "github"
-      }
-    },
     "poetry2nix": {
       "inputs": {
         "flake-utils": "flake-utils_2",
@@ -93,7 +77,6 @@
       "inputs": {
         "flake-utils": "flake-utils",
         "nixpkgs": "nixpkgs",
-        "nixpkgs-matplotlib": "nixpkgs-matplotlib",
         "poetry2nix": "poetry2nix"
       }
     },

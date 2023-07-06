@@ -1,3 +1,0 @@
-start ::= match-id rules;
-match-id ::= "match" "id" "with";
-rules ::= ("|" "id" "->" (start | "id"))+;

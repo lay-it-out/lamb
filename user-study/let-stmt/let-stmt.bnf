@@ -1,3 +1,0 @@
-let-expr ::= "let" decl|*| "in" expr;
-decl ::= (expr "=" expr)|>; // refined
-expr ::= "id" | "id" "id" | let-expr;

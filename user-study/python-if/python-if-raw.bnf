@@ -1,6 +1,0 @@
-document ::= stmt+;
-stmt ::= control-if | "pass";
-control-if ::= (b-if b-elif*) b-else?;
-b-if ::= "if" "e" ":" stmt+;
-b-elif ::= "elif" "e" ":" stmt+;
-b-else ::= "else" ":" stmt+;

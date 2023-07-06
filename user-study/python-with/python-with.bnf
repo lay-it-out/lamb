@@ -1,4 +1,0 @@
-document ::= stmt|+|;
-stmt ::= "pass" | with-block;
-with-block ::= with-start -> stmt|+|;
-with-start ::= ("with" "open('1.txt')" "as" "f" ":")~;
