@@ -1,39 +1,64 @@
-# Artifact of Lay-it-out
-
-TODO: usage of nix
-
-This folder contains the source code of our prototype tool lay-it-out with the evaluation data and scripts for the two case studies and the user study.
+# Artifact of paper "Automated Ambiguity Detection in Layout-Sensitive Grammars"
 
 ## Usage
 
-It is recommended to build via Docker (or other compatible container environment). To distinguish container and host shells, we use the prompt `host#` and `container#` respectively in the following.
+We provide two approaches of building our prototype tool Lamb. Those familiar with the Nix package manager may directly use the nix flakes provided to build our tool. Otherwise, docker can be used to build Lamb (despite missing some functionalities), since we also provide a `Dockerfile` that wraps the installation of Nix package manager and the whole building process.
 
-## Reproducing Case Studies
+In short, we recommend building this project on a Unix-like OS with Nix. This is also the environment we used to develop this tool.
 
-Build the docker image first:
-```shell
-host# docker build .
+### Build with Nix package manager
+
+#### Windows
+
+**Note**: if you're a Windows user, please use WSL, and refer to the building guide for Unix-like operating systems.
+
+#### Unix-like OS (Linux / MacOS)
+
+If you're using Linux distributions other than NixOS (like Ubuntu, Fedora or Archlinux), install Nix package manager first. Skip this step if you already have Nix installed. Nix is usually packaged by your distribution, but the packaged version might not be new enough. Therefore, we suggest using the [installer](https://zero-to-nix.com/concepts/nix-installer) provided by Determinate Systems by running the following command:
+
+```bash
+curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install
 ```
-This command will grab all required libraries and tools like ANTLR, Z3, etc. Depending on your network, the command above can take a while.
 
-If the build successfully completes, you will be presented an sha256 hash of the image.
-Start a container with that image:
-```shell
-host# docker run -it <image-id> bash # replace <image-id> with the sha256 hash from last command.
+Afterwards, set your current directory to the artifact directory (`lamb-artifact`) and run the following to build the artifact:
+
+```bash
+nix build
 ```
 
-In the container shell, you can first run some simple testcases to identify if the environment is working normally:
-```shell
-container# cd /opt/smt-disambig
-container# python run_tests.py --simple
-```
-Note that due to the randomness of SMT solver, the produced results can be totally different from that on our machine. See section "Note on reproducing our results" for more details.
+The building process should take no more than 15 minutes. If an error occurs asking you to enable experimental features of nix, refer to [this guide](https://nixos.wiki/wiki/Flakes#Enable_flakes) to enable flakes and nix commands.
 
-To reproduce the two case studies, run
-```shell
-container# python run_tests.py
+As the building process is now complete, you may run the Lamb tool on a small example provided by us:
+
+```bash
+nix run . -- tests/running-example/running-example.bnf
 ```
-Results will be recorded in `result.json`.
+
+If you see "Ambiguous sentence of length 3 found." after a short while, it means the Lamb tool has been successfully built. Press Ctrl-D (Command-D on Mac) to exit Lamb, and read the next chapter to learn how to reproduce our experiment results.
+
+### Build with Docker or Podman
+
+It is also possible to build Lamb with Docker or Podman, though we *strongly recommend* using Nix due to its simplicity. In fact, our docker image also utilizes Nix internally to build the tool Lamb. Also, when using Docker, you lose the functionality of previewing parse trees on MacOS and Windows due to the lack of X11 server. Thus, we strongly recommend that you use Nix to build this project.
+
+First built the image:
+
+```bash
+docker build -t lamb:0.0.0 .
+```
+
+Afterwards, run the lamb tool as follows:
+
+```
+docker run -v ./tests:/work/tests -it lamb:0.0.0 tests/running-example/running-example.bnf
+```
+
+If you see "Ambiguous sentence of length 3 found." after a short while, it means the Lamb tool has been successfully built. Press Ctrl-D (Command-D on Mac) to exit Lamb, and read the next chapter to learn how to reproduce our experiment results.
+
+**Note:** if you're using Docker Desktop (or Podman Desktop) on MacOS or Windows, you may encounter problems with the last step when doing the bind-mount with `-v`. This is due to the fact that docker (or podman) runs in a virtual machine on those operating systems, and the VM has an independent filesystem. You may try to mount `/Users/` into that virtual machine ([docker file sharing](https://docs.docker.com/desktop/settings/mac/), [podman](https://stackoverflow.com/questions/70971713/mounting-volumes-between-host-macos-bigsur-and-podman-vm)), or use Nix to build instead.
+
+-----
+
+TODO: rewrite those below
 
 ### EBNF Format
 

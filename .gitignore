@@ -327,3 +327,6 @@ TSWLatexianTemp*
 tests/debug
 .virtual_documents
 .direnv
+
+# Nix
+result

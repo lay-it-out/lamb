@@ -23,6 +23,8 @@
           );
         });
       in {
+        # For z3, we use the version in nixpkgs, thus avoiding recompilation
+        # Therefore, it shall not be listed in poetry, as it's directly managed by nix
         devShells = {
           lamb = (let poetryEnv = mkPoetryEnv {
             projectDir = ./.;
