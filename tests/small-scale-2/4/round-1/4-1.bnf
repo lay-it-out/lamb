@@ -1,8 +1,0 @@
-start ::= expr+;
-expr ::= l-expr | m-expr | "e";
-l-expr ::= bind expr; // original grammar seems to be wrong...
-bind ::= "let id =" expr;
-m-expr ::= m-with rules;
-m-with ::= "match id with";
-rules ::= ("| id ->" expr)+;
-// next is 6-2.bnf

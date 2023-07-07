@@ -1,7 +1,0 @@
-sentence: [['let', 1, 1], ['id', 2, 2], ['=', 2, 3], ['id', 2, 4], ['id', 2, 5],
-           ['id', 3, 2], ['=', 3, 3], ['id', 3, 4], ['in', 3, 5], ['id', 3, 6]]
-constraints:
-  - rule index: 14
-    variable: new-var-9
-    refining suggestion:
-    - BinaryOp.AlignOp

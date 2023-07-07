@@ -35,22 +35,22 @@ def position_seq_conform_to_rule(
         raise NotImplementedError()
 
 
-def get_predicate(op, variables: dict, i: int, j: int, is_binary: bool, strict: bool = True,
-                  syn_prefix: str = ''): # strict: do not allow unary ops on binary nodes
+def get_predicate(op, variables: dict, i: int, j: int, is_binary: bool, strict: bool = True):
+    # strict: do now allow unary ops on binary nodes
     if i > j:
         return TRUE()
     if is_binary:
         if op == BinaryOp.ConcatOp:
             return TRUE()
         elif op == BinaryOp.AlignOp:
-            return variables[f'{syn_prefix}col${i}'].Equals(variables[f'{syn_prefix}col${j}'])
+            return variables[f'col${i}'].Equals(variables[f'col${j}'])
         elif op == BinaryOp.IndentOp:
             return And(
-                GT(variables[f'{syn_prefix}col${j}'], variables[f'{syn_prefix}col${i}']),
-                Equals(variables[f'{syn_prefix}line${j}'], Plus(variables[f'{syn_prefix}line${j - 1}'], Int(1)))
+                GT(variables[f'col${j}'], variables[f'col${i}']),
+                Equals(variables[f'line${j}'], Plus(variables[f'line${j - 1}'], Int(1)))
             )
         elif op == BinaryOp.StartSameLineOp:
-            return Equals(variables[f'{syn_prefix}line${j}'], variables[f'{syn_prefix}line${i}'])
+            return Equals(variables[f'line${j}'], variables[f'line${i}'])
         elif strict:
             raise NotImplementedError()
 
@@ -59,8 +59,8 @@ def get_predicate(op, variables: dict, i: int, j: int, is_binary: bool, strict: 
         ret = TRUE()
         for k in range(i + 1, j + 1):
             ret = And(ret, Implies(
-                GT(variables[f'{syn_prefix}line${k}'], variables[f'{syn_prefix}line${i}']),
-                GT(variables[f'{syn_prefix}col${k}'], variables[f'{syn_prefix}col${i}'])
+                GT(variables[f'line${k}'], variables[f'line${i}']),
+                GT(variables[f'col${k}'], variables[f'col${i}'])
             ))
         return ret
     elif op == UnaryOp.OffsideEquOp:
@@ -68,22 +68,21 @@ def get_predicate(op, variables: dict, i: int, j: int, is_binary: bool, strict: 
         ret = TRUE()
         for k in range(i + 1, j + 1):
             ret = And(ret, Implies(
-                GT(variables[f'{syn_prefix}line${k}'], variables[f'{syn_prefix}line${i}']),
-                GE(variables[f'{syn_prefix}col${k}'], variables[f'{syn_prefix}col${i}'])
+                GT(variables[f'line${k}'], variables[f'line${i}']),
+                GE(variables[f'col${k}'], variables[f'col${i}'])
             ))
         return ret
     elif op == UnaryOp.SameLineOp:
         assert i <= j
         ret = TRUE()
         for k in range(i + 1, j + 1):
-            ret = And(ret, variables[f'{syn_prefix}line${k}'].Equals(variables[f'{syn_prefix}line${k - 1}']))
+            ret = And(ret, variables[f'line${k}'].Equals(variables[f'line${k - 1}']))
         return ret
     else:
         raise NotImplementedError()
 
 
-def get_predicate_for_rule(rule: RuleNode, variables, i, j, syn_prefix: str = ''):
+def get_predicate_for_rule(rule: RuleNode, variables, i, j):
     assert isinstance(rule.expression, (BinaryExpressionNode, UnaryExpressionNode))
     op = rule.expression.op
-    return get_predicate(op, variables, i, j, isinstance(rule.expression, BinaryExpressionNode),
-                         syn_prefix=syn_prefix)
+    return get_predicate(op, variables, i, j, isinstance(rule.expression, BinaryExpressionNode))

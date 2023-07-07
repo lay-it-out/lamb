@@ -1,3 +1,0 @@
-where-clause ::= decl "where" decl|+|;
-decl ::= (expr "=" expr)|>; // refined
-expr ::= "id" | "id" "id";

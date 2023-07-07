@@ -1,7 +1,0 @@
-sentence: [['@at-root', 1, 1], ['id', 1, 2], ['id', 2, 2],
-           ['@warn', 3, 3], ['100px', 3, 4], ['@warn', 4, 3], ['100px', 4, 4]]
-constraints:
-  - rule index: 258
-    variable: new-var-108 # rhs of at-root
-    refining suggestion:
-      - BinaryOp.AlignOp
