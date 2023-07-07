@@ -236,13 +236,13 @@ class Interactor:
     def list_parse_trees(self, nonterminal=None):
         def show_parse_trees_of_A(A):
             if not cmd_args.serialize:
-                table = PrettyTable()
-                table.field_names = ('index', 'type')
-                table.add_rows((i, type(x).__name__) for i, x in enumerate(self.parse_tree_dict[A]))
-                print(f'Parse trees of nonterminal: {A}')
                 if A not in self.parse_tree_dict or not len(self.parse_tree_dict[A]):
                     print(HTML('<ansigray>Not found</ansigray>'))
                 else:
+                    table = PrettyTable()
+                    table.field_names = ('index', 'type')
+                    table.add_rows((i, type(x).__name__) for i, x in enumerate(self.parse_tree_dict[A]))
+                    print(f'Parse trees of nonterminal: {A}')
                     print(table)
                 print()
             else:
@@ -310,7 +310,7 @@ class Interactor:
         completer_dict = {
             'list': {
                 'rule': set(x[0] for x in self.mapper.variable_items()),
-                'tree': set(x[0] for x in self.mapper.variable_items())
+                'tree': {A: None for A in self.parse_tree_dict.keys()}
             },
             'show': {
                 'sentence': {
