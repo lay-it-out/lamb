@@ -1,3 +1,5 @@
+from lamb.interaction.cmd_args import get_cmd_args
+
 formatter = {
     'time': '<b>{name}</b> took <ansiyellow>{time:04f}</ansiyellow> second(s).',
     'found': '\n***\n<ansigreen><b>Ambiguous sentence</b></ansigreen> of length <ansigreen><b>{length}</b></ansigreen> '
@@ -14,8 +16,7 @@ formatter = {
 
 
 def print_metric(obj):
-    from lamb.interaction.cmd_args import cmd_args
-    if cmd_args.serialize:
+    if get_cmd_args().serialize:
         import json
         print(json.dumps(obj))
     else:

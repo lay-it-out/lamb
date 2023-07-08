@@ -6,7 +6,7 @@ from pysmt.shortcuts import Or, Solver, Bool
 from lamb.ebnf.ast.loader import load_file_into_ast
 from lamb.ebnf.transformer import *
 from lamb.ebnf.transformer.Ambiguous import get_nonempty_ambiguous_symbols
-from lamb.interaction.cmd_args import cmd_args, set_running_as_module
+from lamb.interaction.cmd_args import get_cmd_args
 from lamb.interaction.metric_printer import print_metric
 from lamb.utils.DebugOutput import debug_rules
 from lamb.utils.RuleDictBuilder import build_rule_dict
@@ -94,11 +94,8 @@ def main(kwargs):
             solver.pop()
 
 def entrypoint():    
-    set_running_as_module(False)
     try:
-        main(cmd_args)
+        main(get_cmd_args())
     except KeyboardInterrupt:
         print('Interrupted. Exiting...')
         exit(1)
-
-set_running_as_module(True) # this will be overwritten to False when entrypoint() runs

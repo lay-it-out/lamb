@@ -1,2 +1,2 @@
-block ::= stmt +;
+block ::= stmt|+|;
 stmt  ::= "nop" | "do" block;

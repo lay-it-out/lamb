@@ -3,7 +3,7 @@ import warnings
 from pathlib import Path
 from subprocess import PIPE, DEVNULL
 from typing import *
-from utils.TempFile import make_tempfile
+from lamb.utils.TempFile import make_tempfile
 import asyncio
 
 import pydash
@@ -14,7 +14,8 @@ from tqdm.rich import tqdm_rich
 from tqdm.asyncio import tqdm_asyncio
 import argparse
 
-parser = argparse.ArgumentParser(description='Run all tests.')
+parser = argparse.ArgumentParser(description='Run evaluation tests.')
+parser.add_argument('-a', '--all', action='store_const', const=True, default=False, help='enable long-running testcases of SASS and Python')
 
 args = parser.parse_args()
 
@@ -24,15 +25,19 @@ all_tests = [
         tests_root / 'yaml',
         tests_root / 'fsharp-snippet',
         tests_root / 'haskell-snippet',
-        # tests_root / 'sass',
-        # tests_root / 'python',
         ]
+if args.all:
+    print('[INFO] Running all tests, including SASS and Python.')
+    all_tests += [ tests_root / 'sass', tests_root / 'python']
+else:
+    print('[INFO] Skipping SASS and Python testcases by default. Use --all to enable them.')
+
 
 print_lock = asyncio.Lock()
 
 
 async def run_on_case(grammar_path, start_var=None):
-    """Run main.py with the provided grammar and parses the output.
+    """Run Lamb with the provided grammar and parses the output.
     """
     args = ['-m', 'lamb', '-c', '20', '-s', '-b', grammar_path]
     if start_var is not None:

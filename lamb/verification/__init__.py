@@ -1,7 +1,6 @@
 import json
 from lamb.interaction.metric_printer import print_metric
 from lamb.utils.SymbolIdMapper import SymbolIdMapper
-from lamb.interaction.cmd_args import cmd_args
 from typing import Dict
 from pysmt.shortcuts import Symbol
 from pysmt.typing import INT

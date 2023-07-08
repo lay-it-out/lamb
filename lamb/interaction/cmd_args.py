@@ -19,8 +19,12 @@ parser.add_argument('-c', '--check-bound', metavar='check_bound', type=int, defa
                     help='only check ambiguity; if specified, the grammar will be considered unambiguous after checking'
                          ' length = k where k is the bound given by this argument. returns 1 on ambiguity')
 
-cmd_args = parser.parse_args()
-_running_as_module = False
+_cmd_args = None
 
-def set_running_as_module(val: bool):
-    _running_as_module = val
+def get_cmd_args():
+    global _cmd_args
+
+    if _cmd_args is None:
+        _cmd_args = parser.parse_args()
+
+    return _cmd_args

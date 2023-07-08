@@ -25,14 +25,14 @@ from prompt_toolkit.shortcuts.prompt import PromptSession
 from lamb.utils.SymbolIdMapper import SymbolIdMapper
 from lamb.utils.TempFile import make_tempfile
 
-from lamb.interaction.cmd_args import cmd_args
+from lamb.interaction.cmd_args import get_cmd_args
 from lamb.interaction.metric_printer import print_metric
 from lamb.interaction.nested import NestedCompleter
 from lamb.interaction.parse_tree import search_all_ambiguous_trees
 
 
 def error(msg):
-    if cmd_args.serialize:
+    if get_cmd_args().serialize:
         original_print(json.dumps({
             "type": "error", "data": msg
         }))
@@ -106,7 +106,7 @@ class Interactor:
             fp = make_tempfile('wb', '.png')
             fp.write(png)
             fp.close()
-            if cmd_args.serialize:
+            if get_cmd_args().serialize:
                 original_print(json.dumps({'type': 'image', 'data': fp.name}))
             else:
                 open_python.start(fp.name)
@@ -128,7 +128,7 @@ class Interactor:
     def show_ambiguous_sentence(self):
         max_line = max(self.model.get_py_value(self.variables[f'line${i}']) for i in range(1, self.word_len + 1))
         max_col = max(self.model.get_py_value(self.variables[f'col${i}']) for i in range(1, self.word_len + 1))
-        if cmd_args.serialize:
+        if get_cmd_args().serialize:
             sentence = []
             for i in range(1, self.word_len + 1):
                 sentence.append(self.get_token_info(i))
@@ -152,7 +152,7 @@ class Interactor:
             error(f'{A} do not have an ambiguous derivation on 1st level.')
             return
         r = self.reformatted[A][index]
-        if cmd_args.serialize:
+        if get_cmd_args().serialize:
             sentence = []
             for i in range(1, self.word_len + 1):
                 tok = self.get_tok(i)
@@ -182,7 +182,7 @@ class Interactor:
             table.field_names = ('index', 'uuid', 'variable', 'type', 'description')
             table.add_rows(
                 (x._index, x.uuid.hex, x.variable, type(x.expression).__name__, x.original_text) for x in self.rules)
-            if cmd_args.serialize:
+            if get_cmd_args().serialize:
                 rule_data = [
                     {'index': x._index, 'uuid': x.uuid.hex, 'variable': x.variable, 'type': type(x.expression).__name__,
                      'description': x.original_text}
@@ -200,7 +200,7 @@ class Interactor:
         else:
             table.field_names = ('index', 'type', 'description')
             table.add_rows((x._index, type(x.expression).__name__, x.original_text) for x in self.rule_dict[A])
-            if cmd_args.serialize:
+            if get_cmd_args().serialize:
                 rule_data = [
                     {'index': x._index, 'type': type(x.expression).__name__, 'description': x.original_text}
                     for x in self.rule_dict[A]
@@ -235,7 +235,7 @@ class Interactor:
 
     def list_parse_trees(self, nonterminal=None):
         def show_parse_trees_of_A(A):
-            if not cmd_args.serialize:
+            if not get_cmd_args().serialize:
                 if A not in self.parse_tree_dict or not len(self.parse_tree_dict[A]):
                     print(HTML('<ansigray>Not found</ansigray>'))
                 else:
@@ -275,11 +275,11 @@ class Interactor:
         Interactor.show_node(d[index], f"Parse tree #{index} of nonterminal {A}", compress=True)
 
     def print_variable_and_sentence(self):
-        if cmd_args.serialize:
+        if get_cmd_args().serialize:
             return
         self.show_ambiguous_sentence()
         self.show_ambiguous_derivations()
-        if not cmd_args.serialize:
+        if not get_cmd_args().serialize:
             print(HTML('<b>NOTE</b>: indexing for tokens in the sentence starts at <ansired><b>1</b></ansired>. ' +
                        'Spaces in the sentence are denoted as `␣\'.'))
             print(HTML('<b>NEXT STEP</b>: List and review all parse trees. '
@@ -339,7 +339,7 @@ class Interactor:
         print_metric({'type': 'repl'})
         while True:
             try:
-                if cmd_args.batch:
+                if get_cmd_args().batch:
                     cmd = input()
                 else:
                     cmd = session.prompt('smt-ambig> ', completer=completer)

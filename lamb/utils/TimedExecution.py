@@ -1,7 +1,6 @@
 import json
 from time import time
 from typing import Callable
-from lamb.interaction.cmd_args import cmd_args
 from lamb.interaction.metric_printer import print_metric
 
 def run_with_time(fun: Callable, *args, **kwargs):
