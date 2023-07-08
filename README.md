@@ -36,7 +36,7 @@ If you see "Ambiguous sentence of length 3 found." after a short while, it means
 
 ### Using the Virtual Machine
 
-Located in the folder `vm` is the virtual machine we provided, which includes NixOS, our code and the running environment. This is the preferred method if your operating system is not officially supported by Nix. To use the provided VM, please import the provided VirtualBox Appliance file into VirtualBox, boot the virtual machine, and launch Konsole. The `lamb-artifact` folder is located at `/home/demo/Desktop/lamb-artifact`. Switch into that folder, and refer to the last section for next step instructions.
+Located in the folder `vm` is the virtual machine we provided, which includes NixOS, our code and the running environment. This is the preferred method if your operating system is not officially supported by Nix. To use the provided VM, please import the provided VirtualBox Appliance file into VirtualBox, boot the virtual machine, and launch Konsole (the terminal emulator). The easiest way of launching Konsole is clicking the rightmost icon on the taskbar. The `lamb-artifact` folder is located at `/home/demo/Desktop/lamb-artifact`. Switch into that folder using `cd` command, and refer to the last section for next step instructions.
 
 ## Running our tool
 
