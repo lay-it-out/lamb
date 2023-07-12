@@ -100,6 +100,9 @@ class Interactor:
     @staticmethod
     def show_node(node: ASTNode, description: str, compress: bool = False):
         dot = pydot.Dot(description)
+        print('S-expression for the parse tree:',
+              node.to_sexpr(show_root=True, compress=compress)[0], sep='\n')
+        print('Generating graphical parse tree...')
         node.draw_graphviz(dot, show_root=True, compress=compress)
         png = dot.create_png()
         try:
@@ -114,8 +117,6 @@ class Interactor:
                 except:
                     print('Exception thrown when trying to show the picture of parse tree:')
                     print(f'The file path for parse tree is {fp.name}')
-                    print('S-expression for the parse tree:',
-                          node.to_sexpr(show_root=True, compress=compress)[0], sep='\n')
         except KeyboardInterrupt:
             pass
 
