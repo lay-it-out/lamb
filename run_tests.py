@@ -1,3 +1,4 @@
+import csv
 import json
 import warnings
 from pathlib import Path
@@ -16,8 +17,10 @@ import argparse
 
 parser = argparse.ArgumentParser(description='Run evaluation tests.')
 parser.add_argument('-a', '--all', action='store_const', const=True, default=False, help='enable long-running testcases of SASS and Python')
+parser.add_argument('-t', '--timeout', metavar='timeout', type=int, default=3600000,
+                    help='timeout for each case, in seconds')
 
-args = parser.parse_args()
+prog_args = parser.parse_args()
 
 app_root = Path(__file__).absolute().parents[0]
 tests_root = app_root / 'tests/checker-benchmark/'
@@ -26,7 +29,7 @@ all_tests = [
         tests_root / 'fsharp-snippet',
         tests_root / 'haskell-snippet',
         ]
-if args.all:
+if prog_args.all:
     print('[INFO] Running all tests, including SASS and Python.')
     all_tests += [ tests_root / 'sass', tests_root / 'python']
 else:
@@ -49,11 +52,10 @@ async def run_on_case(grammar_path, start_var=None):
     try:
         proc = await asyncio.subprocess.create_subprocess_exec(
             'python', *args, stdin=fp, stdout=PIPE, stderr=DEVNULL)
-        stdout, _ = await proc.communicate()
-        print('.', end='')
+        stdout, _ = await asyncio.wait_for(proc.communicate(), prog_args.timeout)
         return stdout, True
     except TimeoutError:
-        return '', False
+        return b'', False
 
 
 def decode_output(output: bytes) -> List[Dict[str, Any]]:
@@ -84,13 +86,13 @@ async def ambiguous_main(cases: List[Path]):
         total += 1
         decoded_output = decode_output(output)
 
-        round_name = "/".join(bnf.parts[-2:])
+        case_name = "/".join(bnf.parts[-2:])
         try:
             async with print_lock:
-                print(f'- executing on {round_name}')
-                fail_list.append(round_name)
+                print(f'- executing on {case_name}')
+                fail_list.append(case_name)
                 if not res:
-                    print(f'  [❌] execution failed on testcase {bnf}')
+                    print(f'  [❌] timeout on testcase {bnf}')
                     continue
                 valid = True
                 msg = 'ok'
@@ -99,7 +101,7 @@ async def ambiguous_main(cases: List[Path]):
                     metrics = extract_ambiguous_results(decoded_output)
 
                     collected_results.append(
-                        (str(round_name), metrics)
+                        (str(case_name), metrics)
                     )
                     print(textwrap.indent(str(metrics), ' ' * 2))
                 except Exception as e:
@@ -115,13 +117,19 @@ async def ambiguous_main(cases: List[Path]):
                     continue
 
         except Exception as e:
-            print(f'- executing on {round_name}')
+            print(f'- executing on {case_name}')
             print(f'  [❌] {e}')
 
     print(f'Passed: {passed} of {total}')
     print('Failed cases:', fail_list)
-    with (app_root / 'result.json').open('w') as f:
-        json.dump(collected_results, f)
+    with (app_root / 'result.csv').open('w') as f:
+        writer = csv.writer(f)
+        writer.writerow(['Case', 'Formula Construction Time', 'Solving Time', '# LS2NF rule', 'Ambiguous sentence length'])
+        for case_name, metrics in collected_results:
+            writer.writerow([case_name, metrics['other_time'], metrics['solve_time'],
+                metrics['ls2nf_rule_cnt'], metrics['found_len']])
+        for case_name in fail_list:
+            writer.writerow(([case_name, 'N/A', 'N/A', 'N/A', 'N/A']))
 
 
 def extract_ambiguous_results(decoded_output):

@@ -330,3 +330,4 @@ tests/debug
 
 # Nix
 result
+result.csv
