@@ -4,9 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="de986df3-030c-4891-864e-fda6b41e113c" name="Changes" comment="Always show S-expr in case of `show tree`">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lamb/ebnf/ast/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/lamb/ebnf/ast/__init__.py" afterDir="false" />
+    <list default="true" id="de986df3-030c-4891-864e-fda6b41e113c" name="Changes" comment="lisp-style indentation for S-expr">
       <change beforePath="$PROJECT_DIR$/lamb/interaction/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/lamb/interaction/__init__.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -37,6 +35,11 @@
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
     "vue.rearranger.settings.migration": "true"
+  },
+  "keyToStringList": {
+    "com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File": [
+      "TEXT"
+    ]
   }
 }]]></component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
@@ -48,7 +51,7 @@
       <option name="presentableId" value="Default" />
       <updated>1688840387021</updated>
       <workItem from="1688840395904" duration="16000" />
-      <workItem from="1689098999984" duration="4389000" />
+      <workItem from="1689098999984" duration="5008000" />
     </task>
     <task id="LOCAL-00001" summary="Ability of showing S-expressions of parse trees">
       <option name="closed" value="true" />
@@ -66,7 +69,15 @@
       <option name="project" value="LOCAL" />
       <updated>1689179620242</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="lisp-style indentation for S-expr">
+      <option name="closed" value="true" />
+      <created>1689181647558</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1689181647558</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -75,6 +86,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Ability of showing S-expressions of parse trees" />
     <MESSAGE value="Always show S-expr in case of `show tree`" />
-    <option name="LAST_COMMIT_MESSAGE" value="Always show S-expr in case of `show tree`" />
+    <MESSAGE value="lisp-style indentation for S-expr" />
+    <option name="LAST_COMMIT_MESSAGE" value="lisp-style indentation for S-expr" />
   </component>
 </project>

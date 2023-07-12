@@ -291,8 +291,14 @@ class Interactor:
         if not get_cmd_args().serialize:
             print(HTML('<b>NOTE</b>: indexing for tokens in the sentence starts at <ansired><b>1</b></ansired>. ' +
                        'Spaces in the sentence are denoted as `␣\'.'))
-            print(HTML('<b>NEXT STEP</b>: List and review all parse trees. '
-                       'Type <ansigreen>help</ansigreen> for available commands. '
+            print(HTML('<b>NEXT STEP</b>: Review all parse trees using the following commands (execute line '
+                       'by line):'))
+            print()
+            for A, trees in self.parse_tree_dict.items():
+                for i in range(len(trees)):
+                    print(f'show tree {A} {i}')
+            print()
+            print(HTML('Type <ansigreen>help</ansigreen> for other available commands. '
                        'Command completion available with TAB key.'))
 
     def exec_(self):
