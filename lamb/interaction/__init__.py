@@ -114,9 +114,9 @@ class Interactor:
             else:
                 try:
                     open_python.start(fp.name)
-                except:
-                    print('Exception thrown when trying to show the picture of parse tree:')
-                    print(f'The file path for parse tree is {fp.name}')
+                except Exception as e:
+                    print('Exception thrown when trying to show the picture of parse tree:', e)
+                    print(f'Maybe you don\'t have a graphical interface, or you\'re in a container')
         except KeyboardInterrupt:
             pass
 

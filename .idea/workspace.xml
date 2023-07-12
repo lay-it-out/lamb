@@ -4,7 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="de986df3-030c-4891-864e-fda6b41e113c" name="Changes" comment="lisp-style indentation for S-expr">
+    <list default="true" id="de986df3-030c-4891-864e-fda6b41e113c" name="Changes" comment="suggest to users the commands used for showing parse trees">
+      <change beforePath="$PROJECT_DIR$/.dockerignore" beforeDir="false" afterPath="$PROJECT_DIR$/.dockerignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lamb/interaction/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/lamb/interaction/__init__.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -51,7 +55,7 @@
       <option name="presentableId" value="Default" />
       <updated>1688840387021</updated>
       <workItem from="1688840395904" duration="16000" />
-      <workItem from="1689098999984" duration="5008000" />
+      <workItem from="1689098999984" duration="6073000" />
     </task>
     <task id="LOCAL-00001" summary="Ability of showing S-expressions of parse trees">
       <option name="closed" value="true" />
@@ -77,7 +81,15 @@
       <option name="project" value="LOCAL" />
       <updated>1689181647558</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="suggest to users the commands used for showing parse trees">
+      <option name="closed" value="true" />
+      <created>1689182052976</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1689182052976</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -87,6 +99,7 @@
     <MESSAGE value="Ability of showing S-expressions of parse trees" />
     <MESSAGE value="Always show S-expr in case of `show tree`" />
     <MESSAGE value="lisp-style indentation for S-expr" />
-    <option name="LAST_COMMIT_MESSAGE" value="lisp-style indentation for S-expr" />
+    <MESSAGE value="suggest to users the commands used for showing parse trees" />
+    <option name="LAST_COMMIT_MESSAGE" value="suggest to users the commands used for showing parse trees" />
   </component>
 </project>
