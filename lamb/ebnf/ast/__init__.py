@@ -2,6 +2,7 @@ import random
 from abc import ABC, abstractmethod
 from enum import Enum
 from typing import List, Optional, Sequence, Set, Type
+import textwrap
 import uuid
 
 import pydot
@@ -44,8 +45,8 @@ class ASTNode(ABC):
     def omit_property(self, key: str):
         return key.startswith('_') or key == 'uuid' or key == 'op'
 
-    def to_sexpr(self, root_name: Optional[str] = None,
-                   show_root: bool = False, compress: bool = False) -> List[str]:
+    def to_sexpr(self, root_name: Optional[str] = None, show_root: bool = False,
+                 compress: bool = False, colored: bool = False) -> List[str]:
         quote_parens = lambda x: x.replace('(', '\\(').replace(')', '\\)')
 
         if show_root:
@@ -55,25 +56,43 @@ class ASTNode(ABC):
             if self.omit_property(prop): continue
             value = vars(self)[prop]
             if isinstance(value, ASTNode):
-                children.extend(value.to_sexpr(compress=compress))
+                children.extend(value.to_sexpr(compress=compress, colored=colored))
             elif isinstance(value, list):
                 for x in value:
                     if isinstance(x, ASTNode):
-                        children.extend(x.to_sexpr(compress=compress))
+                        children.extend(x.to_sexpr(compress=compress, colored=colored))
             else:
-                child_node = quote_parens(str(value))
+                token = str(value)
+                if colored: token = f'<ansiblue><u>{token}</u></ansiblue>'
+                child_node = quote_parens(token)
                 children.append(child_node)
         if (not compress) or ((self._rule and not self._rule.variable.startswith('new-var-')) or root_name is not None):
             node_label = quote_parens(self._tree_id or '')
-            node_xlabel = ''
-            extra_space = ''
+            node_extra_label = ''
 
             if self._rule is not None:
                 node_label = quote_parens(root_name or self._rule.variable or "NOLABEL")
             if getattr(self, 'op', None) is not None and len(self.op.value):
-                node_xlabel = f":op {quote_parens(self.op.value)}"
-                extra_space = ' '
-            node = f'({node_label} {node_xlabel}{extra_space}({" ".join(children)}))'
+                node_extra_label = f":op {quote_parens(self.op.value)}"
+                if colored: node_extra_label = f'<grey>{node_extra_label}</grey>'
+            if colored: node_label = f'<ansired>{node_label}</ansired>'
+            node = '(' + node_label + '\n'
+            indent_spaces = 4*' '
+            if node_extra_label:
+                node += indent_spaces + node_extra_label + '\n'
+            if len(children):
+                children_raw = []
+                for ch in children:
+                    children_raw.extend(ch.split('\n'))
+                if len(children_raw) == 1:
+                    node += indent_spaces + f'({children_raw[0]}))'
+                else:
+                    node += indent_spaces + f'({children_raw[0]}\n'
+                    node += indent_spaces + ' ' + ('\n' + indent_spaces + ' ').join(children_raw[1:])
+                    node += '))'
+            else:
+                node += indent_spaces + '())'
+
             return [node]
         else:
             return children

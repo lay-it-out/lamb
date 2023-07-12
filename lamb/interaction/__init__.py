@@ -101,7 +101,7 @@ class Interactor:
     def show_node(node: ASTNode, description: str, compress: bool = False):
         dot = pydot.Dot(description)
         print('S-expression for the parse tree:',
-              node.to_sexpr(show_root=True, compress=compress)[0], sep='\n')
+              HTML(node.to_sexpr(show_root=True, compress=compress, colored=True)[0]), sep='\n')
         print('Generating graphical parse tree...')
         node.draw_graphviz(dot, show_root=True, compress=compress)
         png = dot.create_png()
