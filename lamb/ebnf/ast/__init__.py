@@ -44,7 +44,41 @@ class ASTNode(ABC):
     def omit_property(self, key: str):
         return key.startswith('_') or key == 'uuid' or key == 'op'
 
-    def draw_graphviz(self, graph: pydot.Dot, prop_name: str = '', root_name: Optional[str] = None,
+    def to_sexpr(self, root_name: Optional[str] = None,
+                   show_root: bool = False, compress: bool = False) -> List[str]:
+        quote_parens = lambda x: x.replace('(', '\\(').replace(')', '\\)')
+
+        if show_root:
+            root_name = self._rule.tree_id if self._rule else self._tree_id
+        children = []
+        for prop in vars(self):
+            if self.omit_property(prop): continue
+            value = vars(self)[prop]
+            if isinstance(value, ASTNode):
+                children.extend(value.to_sexpr(compress=compress))
+            elif isinstance(value, list):
+                for x in value:
+                    if isinstance(x, ASTNode):
+                        children.extend(x.to_sexpr(compress=compress))
+            else:
+                child_node = quote_parens(str(value))
+                children.append(child_node)
+        if (not compress) or ((self._rule and not self._rule.variable.startswith('new-var-')) or root_name is not None):
+            node_label = quote_parens(self._tree_id or '')
+            node_xlabel = ''
+            extra_space = ''
+
+            if self._rule is not None:
+                node_label = quote_parens(root_name or self._rule.variable or "NOLABEL")
+            if getattr(self, 'op', None) is not None and len(self.op.value):
+                node_xlabel = f":op {quote_parens(self.op.value)}"
+                extra_space = ' '
+            node = f'({node_label} {node_xlabel}{extra_space}({" ".join(children)}))'
+            return [node]
+        else:
+            return children
+
+    def draw_graphviz(self, graph: pydot.Dot, root_name: Optional[str] = None,
                       show_root: bool = False, compress: bool = False) -> List[pydot.Node]:
         if show_root:
             root_name = self._rule.tree_id if self._rule else self._tree_id
@@ -54,11 +88,11 @@ class ASTNode(ABC):
                 continue
             value = vars(self)[prop]
             if isinstance(value, ASTNode):
-                self._graphviz_children.extend(value.draw_graphviz(graph, prop_name=prop, compress=compress))
+                self._graphviz_children.extend(value.draw_graphviz(graph, compress=compress))
             elif isinstance(value, list):
                 for x in value:
                     if isinstance(x, ASTNode):
-                        self._graphviz_children.extend(x.draw_graphviz(graph, prop_name=prop, compress=compress))
+                        self._graphviz_children.extend(x.draw_graphviz(graph, compress=compress))
             else:
                 child_node = pydot.Node(name=str(uuid4()), label='"' + str(value).replace('"', '\\"') + '"',
                                         forcelabels=True, shape='box', fontcolor='blue')

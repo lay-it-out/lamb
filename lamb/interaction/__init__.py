@@ -109,9 +109,17 @@ class Interactor:
             if get_cmd_args().serialize:
                 original_print(json.dumps({'type': 'image', 'data': fp.name}))
             else:
-                open_python.start(fp.name)
+                try:
+                    open_python.start(fp.name)
+                except:
+                    print('Exception thrown when trying to show the picture of parse tree:')
+                    print(f'The file path for parse tree is {fp.name}')
+                    print('S-expression for the parse tree:',
+                          node.to_sexpr(show_root=True, compress=compress)[0], sep='\n')
         except KeyboardInterrupt:
             pass
+
+
 
     @staticmethod
     def count_tokens(node: ASTNode) -> int:
@@ -240,8 +248,8 @@ class Interactor:
                     print(HTML('<ansigray>Not found</ansigray>'))
                 else:
                     table = PrettyTable()
-                    table.field_names = ('index', 'type')
-                    table.add_rows((i, type(x).__name__) for i, x in enumerate(self.parse_tree_dict[A]))
+                    table.field_names = ('index', 'sexpr')
+                    table.add_rows((i, x.to_sexpr(show_root=True)[0]) for i, x in enumerate(self.parse_tree_dict[A]))
                     print(f'Parse trees of nonterminal: {A}')
                     print(table)
                 print()
@@ -252,7 +260,7 @@ class Interactor:
                         "data": []
                     }))
                 else:
-                    data = [{"index": i, "type": type(x).__name__} for i, x in enumerate(self.parse_tree_dict[A])]
+                    data = [{"index": i, "sexpr": x.to_sexpr(show_root=True)[0]} for i, x in enumerate(self.parse_tree_dict[A])]
                     original_print(json.dumps({
                         "type": "parse_tree_list",
                         "data": data
