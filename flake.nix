@@ -1,5 +1,6 @@
 {
   description = "Application packaged using poetry2nix";
+  nixConfig.bash-prompt-suffix = "[lamb-dev]> ";
 
   inputs.flake-utils.url = "github:numtide/flake-utils";
   inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
