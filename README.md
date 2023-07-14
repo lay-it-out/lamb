@@ -108,6 +108,43 @@ Try other commands as you wish and exit the REPL via the command `exit`.
 
 ## EBNF Syntax
 
+This tool accepts `.bnf` files as inputs. A formal definition in Antlr can be found [here](lamb/ebnf/antlr/LayoutEBNF.g4).
+
+Informally, a `.bnf` file consists of many production rules, each has the form
+
+```
+<nonterminal> ::= <expr> ;
+```
+
+The expression is one of the following:
+
+- An identifier representing a nonterminal (e.g., `block`)
+- A quoted string representing a terminal (e.g., `"do"`)
+- A parenthesized expression (to promote priority)
+- A sequence of expressions as concatenation
+- A postfix expression
+- An infix expression
+
+We include all standard EBNF constructs:
+
+- Postfix `+` for Kleene plus (occur at least once)
+- Postfix `*` for Kleene star (occur an arbitrary number of times, including zero)
+- Postfix `?` for optional (occur once or none)
+- Infix `|` for alternative (choose either part)
+
+We support the following layout constraints:
+
+- Infix `<>` or `||` for alignment (the first tokens of the two parts have the same column number)
+- Infix `->` for indentation (the second part has its first token to the right of the first part and a newline in between)
+- Infix `|~` for start same line (?)
+- Postfix `|>` for offside (any subsequent lines must start from a column that is further to the right of the start token of the first line)
+- Postfix `|>>` for offside align (a variant of the above: subsequent lines can start from the same column as that of the first line)
+- Postfix `|+|` for aligned Kleene plus (a variant of Kleene plus, but each element must be aligned to each other)
+- Postfix `|*|` for aligned Kleene star (a variant of Kleene plus, but each element must be aligned to each other)
+- Postfix `~` for single-line (one-line)
+
+If needed, check the examples in `tests/` for a better understanding.
+
 ## Replication
 
 This tool is a prototype implementation of the paper "Automated Ambiguity Detection in Layout-Sensitive Grammars". Check [this repo](https://github.com/lay-it-out/OOPSLA23-Artifact) for the replication package.
