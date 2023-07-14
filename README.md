@@ -12,7 +12,7 @@ nix build --no-link
 
 Refer to [this guide](https://nixos.wiki/wiki/Flakes#Enable_flakes) in case you got error messages requesting enable the experimental features of Nix.
 
-Enter a bash shell that provides an interactive build environment with all dependencies loaded via `nix develop`.
+This command enters a bash shell that provides an interactive build environment with all dependencies loaded via `nix develop`.
 
 ### Via Docker
 
