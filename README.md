@@ -32,7 +32,11 @@ You should notice that the shell prompt now ends with `[lamb-dev]>`.
 
 ## Usage
 
-In the Nix development shell (and project root directory), run `python -m lamb -h` to see help information.
+In the Nix development shell (and project root directory), run `python -m lamb -h` to see help information. Some frequently used command-line toggles are listed below:
+
+- `-c <length>`: stop searching for ambiguous sentences after reaching the given length. This is useful if you want to check the bounded unambiguity of a given grammar.
+- `-l <length>`: start the checking process at the specified length. This assumes that one has already checked that any shorter sentence under this grammar is unambiguous.
+- `-s`: output metrics like running time as well as REPL outputs as machine-readable JSON strings.
 
 ## A Tour of Lamb
 
