@@ -12,7 +12,11 @@ nix build --no-link
 
 Refer to [this guide](https://nixos.wiki/wiki/Flakes#Enable_flakes) in case you got error messages requesting enable the experimental features of Nix.
 
-This command enters a bash shell that provides an interactive build environment with all dependencies loaded via `nix develop`.
+To enter a bash shell that provides an interactive build environment with all dependencies loaded, type:
+
+```bash
+nix develop
+```
 
 ### Via Docker
 
@@ -55,7 +59,7 @@ stmt  ::= "nop" | "do" block;
 
 where notation `|+|` is the alignment version of Kleene plus: `stmt|+|` stands for a nonempty sequence of statements that are aligned to each other (i.e., with the same column number).
 
-This grammar is indeed ambiguous: our tool outputs the following that presents a shortest ambiguous sentence found:
+This grammar is indeed ambiguous:
 
 ```
 ...lines of solving process omitted...
@@ -140,7 +144,7 @@ We support the following layout constraints:
 
 - Infix `<>` or `||` for alignment (the first tokens of the two parts have the same column number)
 - Infix `->` for indentation (the second part has its first token to the right of the first part and a newline in between)
-- Infix `|~` for start same line (?)
+- Infix `|~` for start same line (TODO: explain in detail)
 - Postfix `|>` for offside (any subsequent lines must start from a column that is further to the right of the start token of the first line)
 - Postfix `|>>` for offside align (a variant of the above: subsequent lines can start from the same column as that of the first line)
 - Postfix `|+|` for aligned Kleene plus (a variant of Kleene plus, but each element must be aligned to each other)
