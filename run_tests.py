@@ -1,22 +1,21 @@
 import csv
 import json
-import warnings
 from pathlib import Path
 from subprocess import PIPE, DEVNULL
 from typing import *
 from lamb.utils.TempFile import make_tempfile
 import asyncio
 
-import pydash
 import textwrap
-from prettytable import PrettyTable
-import yaml
-from tqdm.rich import tqdm_rich
 from tqdm.asyncio import tqdm_asyncio
 import argparse
 
 parser = argparse.ArgumentParser(description='Run evaluation tests.')
-parser.add_argument('-a', '--all', action='store_const', const=True, default=False, help='enable long-running testcases of SASS and Python')
+benchmark_range_group = parser.add_mutually_exclusive_group()
+benchmark_range_group.add_argument('-a', '--all', action='store_true',
+                    help='enable long-running testcases of SASS and Python')
+benchmark_range_group.add_argument('-f', '--fastest', action='store_true',
+                    help='only run the fastest testcase from each grammar')
 parser.add_argument('-t', '--timeout', metavar='timeout', type=int, default=3600000,
                     help='timeout for each case, in seconds')
 
@@ -29,9 +28,13 @@ all_tests = [
         tests_root / 'fsharp-snippet',
         tests_root / 'haskell-snippet',
         ]
+
 if prog_args.all:
     print('[INFO] Running all tests, including SASS and Python.')
-    all_tests += [ tests_root / 'sass', tests_root / 'python']
+    all_tests += [tests_root / 'sass', tests_root / 'python']
+elif prog_args.fastest:
+    print('[INFO] only running the fastest testcase from each grammar')
+    all_tests = [tests_root / 'fastest']
 else:
     print('[INFO] Skipping SASS and Python testcases by default. Use --all to enable them.')
 

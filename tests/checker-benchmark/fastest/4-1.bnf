@@ -1,0 +1,9 @@
+/* This is #4-1, ../fsharp-snippet/1.bnf */
+
+start ::= expr+;
+expr ::= l-expr | m-expr | "e";
+l-expr ::= (bind expr);
+bind ::= ("let id =" expr);
+m-expr ::= (m-with rules);
+m-with ::= "match id with";
+rules ::= ("| id ->" expr)+;
