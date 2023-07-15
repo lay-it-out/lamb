@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+import json
 
 from pysmt.logics import QF_UFIDL
 from pysmt.shortcuts import Or, Solver, Bool
@@ -46,6 +47,21 @@ def main(kwargs):
             print('Mapping:', mapper._sym_to_id)
             for rule in rules:
                 print(rule.original_text)
+
+        if kwargs.serialize and kwargs.check_bound:
+            # print ls2nf rule details
+            rule_data = [
+                {'uuid': x.uuid.hex, 'variable': x.variable, 'type': type(x.expression).__name__,
+                 'description': x.original_text}
+                for x in rules
+            ]
+            print(json.dumps({
+                'type': 'list',
+                'data': {
+                    'name': 'rule',
+                    'rule': rule_data
+                }
+            }))
 
         loop_running = True
         while loop_running:

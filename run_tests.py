@@ -129,8 +129,9 @@ async def ambiguous_main(cases: List[Path]):
         writer = csv.writer(f)
         writer.writerow(['Case', 'Formula Construction Time', 'Solving Time', '# LS2NF rule', 'Ambiguous sentence length'])
         for case_name, metrics in collected_results:
+            found_len = metrics['found_len']
             writer.writerow([case_name, metrics['other_time'], metrics['solve_time'],
-                metrics['ls2nf_rule_cnt'], metrics['found_len']])
+                metrics['ls2nf_rule_cnt'], found_len if found_len >= 0 else '-'])
         for case_name in fail_list:
             writer.writerow(([case_name, 'N/A', 'N/A', 'N/A', 'N/A']))
 
