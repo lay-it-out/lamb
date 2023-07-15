@@ -144,7 +144,6 @@ We support the following layout constraints:
 
 - Infix `<>` or `||` for alignment (the first tokens of the two parts have the same column number)
 - Infix `->` for indentation (the second part has its first token to the right of the first part and a newline in between)
-- Infix `|~` for start same line (TODO: explain in detail)
 - Postfix `|>` for offside (any subsequent lines must start from a column that is further to the right of the start token of the first line)
 - Postfix `|>>` for offside align (a variant of the above: subsequent lines can start from the same column as that of the first line)
 - Postfix `|+|` for aligned Kleene plus (a variant of Kleene plus, but each element must be aligned to each other)
