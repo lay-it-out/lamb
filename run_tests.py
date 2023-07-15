@@ -125,9 +125,25 @@ async def ambiguous_main(cases: List[Path]):
 
     print(f'Passed: {passed} of {total}')
     print('Failed cases:', fail_list)
+
+    # sort collected results by:
+    # 1. language: python, sass, yaml, fsharp, haskell
+    # 2. sub_id: orig, 1, 2, 3, 4
+    def as_paired_key(file: str) -> Tuple[int, int]:
+        [folder, name] = file.split('/')
+        if folder == 'fastest':
+            return (int(name[0]), int(name[2]))
+
+        index = [index for (lang, index) in
+                            zip(['python', 'sass', 'yaml', 'fsharp', 'haskell'], range(1, 6))
+                       if lang in folder][0]
+        sub_id = 0 if name.startswith('orig') else int(name[0])
+        return (index, sub_id)
+    collected_results.sort(key=lambda p: as_paired_key(p[0]))
+
     with (app_root / 'result.csv').open('w') as f:
         writer = csv.writer(f)
-        writer.writerow(['Case', 'Formula Construction Time', 'Solving Time', '# LS2NF rule', 'Ambiguous sentence length'])
+        writer.writerow(['Case', 'Formula construction time', 'Solving time', '# LS2NF rule', 'Ambiguous sentence length'])
         for case_name, metrics in collected_results:
             found_len = metrics['found_len']
             writer.writerow([case_name, metrics['other_time'], metrics['solve_time'],
