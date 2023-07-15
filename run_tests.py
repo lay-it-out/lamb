@@ -16,7 +16,7 @@ benchmark_range_group.add_argument('-a', '--all', action='store_true',
                     help='enable long-running testcases of SASS and Python')
 benchmark_range_group.add_argument('-f', '--fastest', action='store_true',
                     help='only run the fastest testcase from each grammar')
-parser.add_argument('-t', '--timeout', metavar='timeout', type=int, default=3600000,
+parser.add_argument('-t', '--timeout', metavar='timeout', type=int, default=3600,
                     help='timeout for each case, in seconds')
 
 prog_args = parser.parse_args()
