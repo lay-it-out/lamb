@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "lamb"
-version = "0.0.0"
+version = "0.0.2"
 description = "artifact for the paper lamb"
 authors = ["paulzfm", "panda2134"]
 packages = [{include = "lamb"}]

@@ -23,13 +23,13 @@ nix develop
 First, build a Docker image with Nix inside:
 
 ```bash
-docker build . -t lamb:0.0.0
+docker build . -t lamb:0.0.2
 ```
 
 Then, start a container using that image, so that you will be dropped into the Nix development shell:
 
 ```bash
-docker run -it lamb:0.0.0
+docker run -it lamb:0.0.2
 ```
 
 You should notice that the shell prompt now ends with `[lamb-dev]>`.
