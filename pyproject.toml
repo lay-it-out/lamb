@@ -28,7 +28,6 @@ yices = "1.1.5"
 # z3 = "4.8.*" # taken from nixpkgs, thus not in poetry.lock
 
 [tool.poetry.dev-dependencies]
-ipython = "8.4.*"
 natsort = "8.1.*"
 jedi-language-server = "0.36.*"
 
