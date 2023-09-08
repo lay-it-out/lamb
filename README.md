@@ -152,6 +152,20 @@ We support the following layout constraints:
 
 If needed, check the examples in `tests/` for a better understanding.
 
+## Running Lamb on your own grammar
+
+You might also be interested in running Lamb on a grammar you designed, rather than the grammars included as benchmarks.
+Please first refer to the section "EBNF Syntax" to learn how to write your own grammar.
+After that, launch the Nix development shell, and run Lamb as shown below:
+
+```bash
+python -m lamb ./path/to/your/grammar.bnf -c 20
+```
+
+As documented in section "Usage", `-c 20` ensures that the solver stops if no ambiguous sentence within 20 tokens is found.
+Without this argument, the solver would run indefinitely on unambiguous grammars.
+
 ## Replication
 
 This tool is a prototype implementation of the paper "Automated Ambiguity Detection in Layout-Sensitive Grammars". Check [this repo](https://github.com/lay-it-out/OOPSLA23-Artifact) for the replication package.
+
